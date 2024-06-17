@@ -1,4 +1,5 @@
 const db = require("mongoose");
+const bcrypt = require("bcrypt");
 
 (async () => {
   await db.connect(
@@ -38,8 +39,28 @@ const UserSchema = new Schema({
   },
 });
 
+UserSchema.pre("save", async function () {
+  const salt = await bcrypt.genSalt();
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
 const User = db.model("users", UserSchema);
+
+const AccountsSchema = new Schema({
+  userId: {
+    type: db.Schema.Types.ObjectId,
+    required: true,
+    ref: "users",
+  },
+  balance: {
+    type: Number,
+    required: true,
+  },
+});
+
+const Accounts = db.model("accounts", AccountsSchema);
 
 module.exports = {
   User,
+  Accounts,
 };
