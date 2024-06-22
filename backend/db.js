@@ -1,10 +1,9 @@
 const db = require("mongoose");
 const bcrypt = require("bcrypt");
+const dotenv = require("dotenv").config();
 
 (async () => {
-  await db.connect(
-    "mongodb+srv://prateekkuniyal:uniyal@work-test.5vrxvyy.mongodb.net/paytm?retryWrites=true&w=majority&appName=work-test"
-  );
+  await db.connect(process.env.DB_URI);
   console.log("DB connection successful");
 })();
 
