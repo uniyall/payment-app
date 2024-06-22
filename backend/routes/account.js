@@ -24,7 +24,7 @@ router.post("/transfer", authMiddleware, async (req, res, next) => {
     username: req.username,
   });
 
-  const toUser = await User.findById(to)
+  const toUser = await User.findById(to);
 
   if (!toUser) {
     return res.status(400).json({

@@ -60,8 +60,16 @@ router.post("/signup", async (req, res) => {
 
   await newAccount.save();
 
+  const token = jwt.sign(
+    {
+      username,
+    },
+    JWT_SECRET
+  );
+
   res.status(200).json({
     message: "User created successfully",
+    token,
   });
 });
 
@@ -83,6 +91,7 @@ router.post("/signin", async (req, res) => {
   }
 
   const passwordsMatch = await bcrypt.compare(password, ourUser.password);
+
   if (!passwordsMatch) {
     return res.status(403).json({
       message: "Wrong password",
@@ -133,15 +142,21 @@ router.put("/", authMiddleware, async (req, res) => {
   });
 });
 
-router.get("/bulk", async (req, res, next) => {
+router.get("/bulk", authMiddleware, async (req, res, next) => {
   const filter = req.query.filter;
+
   const user = await User.find({
     firstName: {
       $regex: filter ? `.*${filter}.*` : ".*",
+      $options: "i",
     },
   });
 
-  res.json(user);
+  console.log(user);
+
+  const withoutCurUser = user.filter((ele) => ele.username != req.username);
+
+  res.json(withoutCurUser);
 });
 
 module.exports = router;
