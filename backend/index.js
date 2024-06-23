@@ -3,7 +3,7 @@ const app = express();
 const apiRouter = require("./routes/index");
 const cors = require("cors");
 require("./db");
-PORT = 3000;
+PORT = 443;
 
 app.use(cors());
 app.use(express.json());
