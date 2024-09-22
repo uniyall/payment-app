@@ -10,7 +10,7 @@ function Appbar() {
   return (
     <div className="flex flex-col font-medium text-sm">
       <div className="flex justify-between p-1 items-center">
-        <h1>Pay-ment App</h1>
+        <h1>PayKaro App</h1>
         <div className="flex w-min gap-1 items-center">
           <h1>Hello</h1>
           <div className="w-8 h-8 rounded-full bg-slate-300">
